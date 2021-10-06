@@ -19,7 +19,7 @@
                 <li class="nav-item">
                     <a href="<?php echo base_url('/'); ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Dashboard</p>
+                        <p>Home</p>
                     </a>
                 </li>
                 <li class="nav-item">
