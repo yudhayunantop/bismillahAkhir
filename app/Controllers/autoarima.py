@@ -77,5 +77,5 @@ plt.fill_between(lower_series.index,
                  upper_series, 
                  color='k', alpha=.15)
 
-plt.title("Hasil Peramalan, Error: %.3f persen" % mape)
+plt.title("Hasil Peramalan (Error: %.3f persen)" % mape)
 plt.show()
