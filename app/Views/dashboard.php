@@ -22,21 +22,9 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
-                        <div class="card-header">
-                            <h5 class="m-0">Sales Graph</h5>
-                        </div>
                         <div class="card-body">
-                            <p>Halaman sales graph</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="m-0">Latest Transaction</h5>
-                        </div>
-                        <div class="card-body">
-                            <p>Halaman latest transaction</p>
+                            <p>Hai <?= session()->get('USERNAME'); ?>! </p>
+                            <p>Selamat datang di Sistem Informasi Peramalan Tagihan CV. Yuda Pratama.</p>
                         </div>
                     </div>
                 </div>

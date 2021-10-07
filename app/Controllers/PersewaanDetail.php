@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 class PersewaanDetail extends BaseController
 {
 
@@ -137,6 +134,7 @@ class PersewaanDetail extends BaseController
 
         // panggil model persewaan + save
         $this->persewaanModel->save([
+            'ID_USER' => session()->get('ID_USER'),
             'ID_PERUSAHAAN' => $this->request->getVar('input_idperusahaan'),
             'ID_PERSEWAAN_DETAIL' => $idPersewaanDetail
         ]);
@@ -282,24 +280,4 @@ class PersewaanDetail extends BaseController
         //4. Redirect
         return redirect()->to('/persewaandetail/'.$idPerusahaan);
     }
-
-    // public function ExportExcel($id)
-    // {
-    //     // Ambil data
-    //     $dataPerusahaan = $this->persewaanDetailModel->getDataRamal($id);
-
-    //     $file = fopen("data.csv","w");
-
-    //     foreach ($dataPerusahaan as $line) {
-    //         fputcsv($file, $line);
-    //     }
-
-    //     fclose($file);
-
-    //     // set_time_limit(600);
-    //     // $python = `python autoarima.py`;
-    //     // dd($python);
-    //     // echo "Run Berhasil";
-    //     return redirect()->to('/persewaandetail/'.$id);
-    // }
 }

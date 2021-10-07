@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 class MesinFotocopy extends BaseController
 {
 
@@ -146,43 +143,5 @@ class MesinFotocopy extends BaseController
 
         //4. Redirect
         return redirect()->to('/mesinfotocopy');
-    }
-
-    public function ExportExcel()
-    {
-        // Deklarasi spreadsheet
-        $spreadsheet = new Spreadsheet();
-
-        // Ambil data
-        $datamesinfotocopy = $this->mesinFotocopyModel->findAll();
-
-        // tulis header/nama kolom 
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'ID mesinfotocopy')
-            ->setCellValue('B1', 'Nama mesinfotocopy')
-            ->setCellValue('C1', 'Alamat mesinfotocopy')
-            ->setCellValue('D1', 'No. Telp mesinfotocopy');
-
-        $column = 2;
-        // tulis data mobil ke cell
-        foreach ($datamesinfotocopy as $data) {
-            $spreadsheet->setActiveSheetIndex(0)
-                ->setCellValue('A' . $column, $data['id_mesinfotocopy'])
-                ->setCellValue('B' . $column, $data['nama_mesinfotocopy'])
-                ->setCellValue('C' . $column, $data['alamat_mesinfotocopy'])
-                ->setCellValue('D' . $column, $data['notelp_mesinfotocopy']);
-            $column++;
-        }
-        // tulis dalam format .xlsx
-        $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data mesinfotocopy';
-
-        // Redirect hasil generate xlsx ke web client
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
-        header('Cache-Control: max-age=0');
-
-        $writer->save('php://output');
-        exit();
     }
 }

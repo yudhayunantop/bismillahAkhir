@@ -2,7 +2,7 @@
     <a href="<?php echo base_url('/'); ?>" class="brand-link">
       <img src="<?php echo base_url('themes/dist'); ?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">SIP Online</span>
+      <span class="brand-text font-weight-light">Yuda Pratama</span>
     </a>
  
     <div class="sidebar">
@@ -11,7 +11,7 @@
                 <img src="<?php echo base_url('themes/dist'); ?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Admin</a>
+                <a href="#" class="d-block"><?= session()->get('USERNAME'); ?></a>
             </div>
         </div>
         <nav class="mt-2">
@@ -42,7 +42,7 @@
                 </li>
                 <li class="nav-header">ACCOUNT</li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('auth/logout'); ?>" class="nav-link">
+                    <a href="<?php echo base_url('login/logout'); ?>" class="nav-link">
                         <i class="nav-icon far fa-circle text-danger"></i>
                         <p class="text">Logout</p>
                     </a>

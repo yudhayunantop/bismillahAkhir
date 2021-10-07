@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 class Perusahaan extends BaseController
 {
 
@@ -248,41 +245,4 @@ class Perusahaan extends BaseController
         return redirect()->to('/perusahaan');
     }
 
-    public function ExportExcel()
-    {
-        // Deklarasi spreadsheet
-        $spreadsheet = new Spreadsheet();
-
-        // Ambil data
-        $dataPerusahaan = $this->perusahaanModel->findAll();
-
-        // tulis header/nama kolom 
-        $spreadsheet->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'ID Perusahaan')
-            ->setCellValue('B1', 'Nama Perusahaan')
-            ->setCellValue('C1', 'Alamat Perusahaan')
-            ->setCellValue('D1', 'No. Telp Perusahaan');
-
-        $column = 2;
-        // tulis data mobil ke cell
-        foreach ($dataPerusahaan as $data) {
-            $spreadsheet->setActiveSheetIndex(0)
-                ->setCellValue('A' . $column, $data['id_perusahaan'])
-                ->setCellValue('B' . $column, $data['nama_perusahaan'])
-                ->setCellValue('C' . $column, $data['alamat_perusahaan'])
-                ->setCellValue('D' . $column, $data['notelp_perusahaan']);
-            $column++;
-        }
-        // tulis dalam format .xlsx
-        $writer = new Xlsx($spreadsheet);
-        $fileName = 'Data Perusahaan';
-
-        // Redirect hasil generate xlsx ke web client
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename=' . $fileName . '.xlsx');
-        header('Cache-Control: max-age=0');
-
-        $writer->save('php://output');
-        exit();
-    }
 }

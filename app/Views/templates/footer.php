@@ -7,9 +7,9 @@
  
 <footer class="main-footer">
     <div class="float-right d-none d-sm-inline">
-        Sistem Informasi Penjualan
+        Sistem Informasi Peramalan Tagihan  
     </div>
-    <strong>Copyright © 2014-2019 <a href="<?= base_url('/'); ?>">SIP Online</a>.</strong> All rights reserved.
+    <strong>Copyright © 2021<a href="<?= base_url('/'); ?>"> SIMAL </a>.</strong> All rights reserved.
 </footer>
 </div>
  

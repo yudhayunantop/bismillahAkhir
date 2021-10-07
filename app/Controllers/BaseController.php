@@ -60,5 +60,6 @@ class BaseController extends Controller
 		$this->mesinFotocopyModel = new \App\Models\MesinFotocopyModel();
 		$this->persewaanDetailModel = new \App\Models\PersewaanDetailModel();
 		$this->persewaanModel = new \App\Models\PersewaanModel();
+		$this->usersModel = new \App\Models\UsersModel();
 	}
 }

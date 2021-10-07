@@ -34,6 +34,18 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
 
+$routes->get('/dashboard', 'Dashboard::index');
+
+$routes->get('/login', 'Login::index');
+$routes->post('/login/process', 'Login::process');
+$routes->get('/logout', 'Login::logout');
+
+$routes->get('/register', 'Register::index');
+$routes->post('/register/process', 'Register::process');
+
+$routes->get('/register', 'Register::index');
+$routes->post('/register/process', 'Register::process');
+
 $routes->get('/perusahaan', 'Perusahaan::index');
 $routes->get('/perusahaan/create', 'Perusahaan::create');
 $routes->get('/perusahaan/edit/(:segment)', 'Perusahaan::edit/$1');
