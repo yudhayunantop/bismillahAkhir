@@ -4,6 +4,8 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima_model import ARIMA
 import pmdarima as pm
+from math import sqrt
+from pmdarima.metrics import smape
 
 df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
 
@@ -24,13 +26,11 @@ model = pm.auto_arima(df.value, start_p=0, start_q=0,
                       stepwise=True
                       )
 
+# Forecast for accuracy
 forecast = model.predict(n_periods=len(valid))
 forecast = pd.DataFrame(forecast,index = valid.index,columns=['Prediction'])
 
 #calculate mape
-from math import sqrt
-from pmdarima.metrics import smape
-
 mape = sqrt(smape(valid,forecast))
 print(mape)
 
