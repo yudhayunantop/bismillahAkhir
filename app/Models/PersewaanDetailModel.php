@@ -66,6 +66,13 @@ class PersewaanDetailModel extends Model
                 AND persewaan.ID_PERUSAHAAN=$id";
         return $this->query($sql)->getResultArray();
     }
+
+    public function getJumlahTagihan($id)
+    {
+        $sql = "SELECT `JUMLAH_TAGIHAN` FROM `persewaan_detail` WHERE `ID_PERSEWAAN_DETAIL` = $id";
+        return $this->query($sql)->getResultArray();
+    }
+    
     // Data Full
     // SELECT JUMLAH_TAGIHAN
     //             FROM persewaan_detail, persewaan

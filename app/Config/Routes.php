@@ -63,6 +63,7 @@ $routes->get('/mesinfotocopy/(:any)', 'MesinFotocopy::restrict'); //Mencegah use
 $routes->get('/persewaandetail/create/(:segment)', 'PersewaanDetail::create/$1');
 $routes->get('/persewaandetail/(:segment)', 'PersewaanDetail::index/$1');
 $routes->get('/persewaandetail/edit/(:segment)/(:segment)', 'PersewaanDetail::edit/$1/$1');
+$routes->get('/persewaandetail/hitungsse/(:segment)/(:segment)', 'PersewaanDetail::hitungSSE/$1/$1');
 $routes->delete('/persewaandetail/delete/(:segment)', 'PersewaanDetail::delete/$1');
 $routes->get('/persewaandetail/delete/(:any)', 'PersewaanDetail::restrict'); //Mencegah user delete melalui GET URL
 $routes->get('/persewaandetail/(:any)', 'PersewaanDetail::restrict'); //Mencegah user masuk menu yang tidak tersedia

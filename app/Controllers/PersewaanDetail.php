@@ -278,6 +278,20 @@ class PersewaanDetail extends BaseController
         session()->setFlashdata('pesan', 'Data berhasil diubah.');
 
         //4. Redirect
-        return redirect()->to('/persewaandetail/'.$idPerusahaan);
+        return redirect()->to('persewaandetail/'.$idPerusahaan);
     }
+
+    public function hitungSSE($id, $idPerusahaan)
+    {
+        $jumlahTagihan = $this->persewaanDetailModel->getJumlahTagihan($id);
+        $sse = $jumlahTagihan[0]['JUMLAH_TAGIHAN'] * 0.05;
+
+        $_SESSION['pesan'] = 'Jumlah SSE Persewaan sebesar : '.$sse;
+        $session = session();
+        $session->markAsFlashdata('pesan');
+
+        return redirect()->to('persewaandetail/'.$idPerusahaan);
+
+    }
+
 }

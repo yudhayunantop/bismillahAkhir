@@ -31,14 +31,15 @@
                         <?= csrf_field(); ?>
                         <button type="submit" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> New Persewaan</button>
                     </form>
-                    <!-- <a href="<?= base_url("persewaandetail/create")?>" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> New Persewaan</a> -->
-                    <!-- <form action="<?= base_url('persewaandetail/exportexcel/'.$idPerusahaan) ?>" method="POST" class="d-inline">
-                        <button type="submit" class="btn btn-primary btn-xs">Unduh Data Perusahaan</button>
-                    </form> -->
                 </div>
             </div>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-striped" id="tabledata">
+                    <?php if (isset($_SESSION['pesan'])): ?>
+                        <div class="alert alert-warning" role="alert">
+                            <?= $_SESSION['pesan']; ?>
+                        </div>
+                    <?php endif;?>
                     <thead>
                         <th>#</th>
                         <th>Tanggal Tagih</th>
@@ -78,6 +79,10 @@
                                             <?= csrf_field(); ?>
                                             <input type="hidden" name="_method" value="Hapus">
                                             <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('apakah anda yakin?');"><i class="fa fa-trash"></i></button>
+                                        </form>
+                                        <form action="/persewaandetail/hitungsse/<?= $row['ID_PERSEWAAN_DETAIL']; ?>/<?= $idPerusahaan ?>" method="POST" class="d-inline">
+                                            <?= csrf_field(); ?>
+                                            <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-coins"></i></button>
                                         </form>
                                     </div>
                                 </td>

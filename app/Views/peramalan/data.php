@@ -41,7 +41,7 @@
                                 <div class="btn-group">
                                     <form action="/peramalan/ramal/<?= $row['ID_PERUSAHAAN']; ?>" method="POST" class="d-inline">
                                         <?= csrf_field(); ?>
-                                        <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-calculator"></i></button>
+                                        <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-chart-line"></i></button>
                                     </form>
                                 </div>
                             </td>
