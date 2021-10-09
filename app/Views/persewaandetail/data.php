@@ -80,6 +80,14 @@
                                             <input type="hidden" name="_method" value="Hapus">
                                             <button type="submit" class="btn btn-default btn-sm" onclick="return confirm('apakah anda yakin?');"><i class="fa fa-trash"></i></button>
                                         </form>
+                                        <form action="/persewaandetail/cetakcounter/<?= $row['ID_PERSEWAAN_DETAIL']; ?>/<?= $idPerusahaan ?>" method="POST" class="d-inline">
+                                            <?= csrf_field(); ?>
+                                            <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-file-invoice"></i></i></button>
+                                        </form>
+                                        <form action="/persewaandetail/cetaktagihan/<?= $row['ID_PERSEWAAN_DETAIL']; ?>/<?= $idPerusahaan ?>" method="POST" class="d-inline">
+                                            <?= csrf_field(); ?>
+                                            <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-file-invoice-dollar"></i></button>
+                                        </form>
                                         <form action="/persewaandetail/hitungsse/<?= $row['ID_PERSEWAAN_DETAIL']; ?>/<?= $idPerusahaan ?>" method="POST" class="d-inline">
                                             <?= csrf_field(); ?>
                                             <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-coins"></i></button>

@@ -291,7 +291,42 @@ class PersewaanDetail extends BaseController
         $session->markAsFlashdata('pesan');
 
         return redirect()->to('persewaandetail/'.$idPerusahaan);
-
     }
 
+    function cetakTagihan($id,$idPerusahaan){
+        $dataPerusahaan = $this->perusahaanModel->getDataTagihan($idPerusahaan);
+        $dataPersewaan = $this->persewaanDetailModel->getPersewaan($id);
+
+        // $data = [
+        //     'title' => 'Perusahaan',
+        //     'dataPerusahaan' => $dataPerusahaan,
+        //     'dataPersewaan' => $dataPersewaan
+        // ];
+
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('persewaandetail/tagihan', ["dataPerusahaan" => $dataPerusahaan, 'dataPersewaan' => $dataPersewaan]));
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->render();
+        $dompdf->stream('tagihan'.$id.'.pdf');
+
+        return redirect()->to('persewaandetail/'.$idPerusahaan);
+    }
+
+    function cetakCounter($id,$idPerusahaan){
+        $dataPersewaan = $this->persewaanDetailModel->getPersewaan($id);
+
+        // $data = [
+        //     'title' => 'Perusahaan',
+        //     'dataPerusahaan' => $dataPerusahaan,
+        //     'dataPersewaan' => $dataPersewaan
+        // ];
+
+        $dompdf = new \Dompdf\Dompdf(); 
+        $dompdf->loadHtml(view('persewaandetail/counter', ['dataPersewaan' => $dataPersewaan]));
+        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->render();
+        $dompdf->stream('counter'.$id.'.pdf');
+
+        return redirect()->to('persewaandetail/'.$idPerusahaan);
+    }
 }

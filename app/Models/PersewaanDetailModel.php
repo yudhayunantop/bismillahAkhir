@@ -72,6 +72,12 @@ class PersewaanDetailModel extends Model
         $sql = "SELECT `JUMLAH_TAGIHAN` FROM `persewaan_detail` WHERE `ID_PERSEWAAN_DETAIL` = $id";
         return $this->query($sql)->getResultArray();
     }
+
+    public function getPersewaan($id)
+    {
+        $sql = "SELECT * FROM `persewaan_detail` WHERE `ID_PERSEWAAN_DETAIL` = $id";
+        return $this->query($sql)->getResultArray();
+    }
     
     // Data Full
     // SELECT JUMLAH_TAGIHAN
