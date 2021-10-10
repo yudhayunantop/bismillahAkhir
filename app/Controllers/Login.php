@@ -23,7 +23,7 @@ class Login extends BaseController
                 ]);
                 return redirect()->to(base_url('dashboard'));
             } else {
-                session()->setFlashdata('error', 'Username & Password Salah');
+                session()->setFlashdata('error', 'Username / Password Salah');
                 return redirect()->back();
             }
     }
