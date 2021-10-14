@@ -28,6 +28,7 @@ class Peramalan extends BaseController
         $jumlahData =  $this->persewaanDetailModel->getJumlahData($id);
         // dd($jumlahData);
         if ($jumlahData[0]['BanyakTransaksi'] < 24) {
+
             $_SESSION['pesan'] = 'Peramalan gagal! jumlah data yang dimiliki ('.$jumlahData[0]['BanyakTransaksi'].') kurang dari 24 bulan!';
             $session = session();
             $session->markAsFlashdata('pesan');
@@ -37,20 +38,19 @@ class Peramalan extends BaseController
         else {            
             // Ambil data
             $dataPerusahaan = $this->persewaanDetailModel->getDataRamal($id);
-    
-            // dd($dataPerusahaan);
+            
+            // buat csv
             $file = fopen("data.csv","w");
-    
             foreach ($dataPerusahaan as $line) {
                 fputcsv($file, $line);
             }
-    
             fclose($file);
-    
+            
+            // Jalankan peramalan
             set_time_limit(600);
             $python = system('python C:\xampp\htdocs\web\bismillahAkhir\app\Controllers\autoarima.py');
-            
             echo $python;
+
             return redirect()->to('/peramalan');
         }
         
