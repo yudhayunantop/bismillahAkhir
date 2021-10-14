@@ -31,8 +31,18 @@ forecast = model.predict(n_periods=len(valid))
 forecast = pd.DataFrame(forecast,index = valid.index,columns=['Prediction'])
 
 #calculate mape
+from math import sqrt
+from pmdarima.metrics import smape
+from sklearn.metrics import mean_squared_error
+
+# mse = mean_squared_error(valid,forecast)
+difference_array = np.subtract(valid, forecast)
+squared_array = np.square(difference_array)
+mse = squared_array.mean()
+
 mape = sqrt(smape(valid,forecast))
-print(mape)
+print('MAPE : ', mape)
+print('MSE : ', mse)
 
 ######################################################################################
 # model = pm.auto_arima(df.value, start_p=0, start_q=0,
@@ -78,4 +88,6 @@ plt.fill_between(lower_series.index,
                  color='k', alpha=.15)
 
 plt.title("Hasil Peramalan (Error: %.3f persen)" % mape)
+# Ubah ke format angka asli
+# ax.ticklabel_format(useOffset=False, style='plain')
 plt.show()

@@ -1,4 +1,6 @@
-<?php namespace App\Controllers;
+<?php 
+
+namespace App\Controllers;
 
 header("Access-Control-Allow-Origin: *");
 
@@ -22,24 +24,36 @@ class Peramalan extends BaseController
 
     public function ramal($id)
     {
-        // Ambil data
-        $dataPerusahaan = $this->persewaanDetailModel->getDataRamal($id);
-
-        // dd($dataPerusahaan);
-        $file = fopen("data.csv","w");
-
-        foreach ($dataPerusahaan as $line) {
-            fputcsv($file, $line);
+        // Cek Jumlah data
+        $jumlahData =  $this->persewaanDetailModel->getJumlahData($id);
+        // dd($jumlahData);
+        if ($jumlahData[0]['BanyakTransaksi'] < 24) {
+            $_SESSION['pesan'] = 'Peramalan gagal! jumlah data yang dimiliki ('.$jumlahData[0]['BanyakTransaksi'].') kurang dari 24 bulan!';
+            $session = session();
+            $session->markAsFlashdata('pesan');
+            
+            return redirect()->to('/peramalan');
         }
-
-        fclose($file);
-
-        set_time_limit(600);
-        $python = system('python C:\xampp\htdocs\web\bismillahAkhir\app\Controllers\autoarima.py');
+        else {            
+            // Ambil data
+            $dataPerusahaan = $this->persewaanDetailModel->getDataRamal($id);
+    
+            // dd($dataPerusahaan);
+            $file = fopen("data.csv","w");
+    
+            foreach ($dataPerusahaan as $line) {
+                fputcsv($file, $line);
+            }
+    
+            fclose($file);
+    
+            set_time_limit(600);
+            $python = system('python C:\xampp\htdocs\web\bismillahAkhir\app\Controllers\autoarima.py');
+            
+            echo $python;
+            return redirect()->to('/peramalan');
+        }
         
-        echo $python;
-        return redirect()->to('/peramalan');
     }
-
     
 }

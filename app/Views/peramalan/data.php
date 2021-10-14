@@ -25,6 +25,11 @@
             </div>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-striped" id="tabledata">
+                    <?php if (isset($_SESSION['pesan'])): ?>
+                        <div class="alert alert-warning" role="alert">
+                            <?= $_SESSION['pesan']; ?>
+                        </div>
+                    <?php endif;?>
                     <thead>
                         <th>#</th>
                         <th>Nama</th>
