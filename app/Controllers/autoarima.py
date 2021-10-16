@@ -7,7 +7,7 @@ import pmdarima as pm
 from math import sqrt
 from pmdarima.metrics import smape
 
-df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
+df = pd.read_csv('C:/xampp/htdocs/bismillahAkhir/public/data.csv', names=['value'])
 
 #divide into train and validation set
 train = df[:int(0.7*(len(df)))]

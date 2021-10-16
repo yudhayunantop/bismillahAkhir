@@ -76,19 +76,10 @@ class PersewaanDetail extends BaseController
                     'max_length' => 'Kertas Rusak terlalu panjang, maks 20 karakter'
                 ]
             ]
-            // ,
-            // 'input_kelebihanpemakaian' => [
-            //     'rules' => 'required|is_natural|max_length[20]',
-            //     'errors' => [
-            //         'required' => 'Kelebihan Pemakaian harus diisi',
-            //         'is_natural' => 'Kelebihan Pemakaian harus berupa angka',
-            //         'max_length' => 'Kelebihan Pemakaian terlalu panjang, maks 20 karakter'
-            //     ]
-            // ]
         ])) {
             $validation = \Config\Services::validation();
-            //dd($validation);
-            return redirect()->to('/persewaandetail/create')->withInput()->with('validation', $validation->getErrors());
+            // dd($validation);
+            return redirect()->to('/persewaandetail/create/'.$idPerusahaan)->withInput()->with('validation', $validation->getErrors());
 
             //return redirect()->to('/perusahaan/create');
         }
@@ -233,7 +224,7 @@ class PersewaanDetail extends BaseController
         ])) {
             $validation = \Config\Services::validation();
             //dd($validation);
-            return redirect()->to('/persewaandetail/edit/' . $id . $idPerusahaan)->withInput()->with('validation', $validation->getErrors());
+            return redirect()->to('/persewaandetail/edit/' . $id .'/'. $idPerusahaan)->withInput()->with('validation', $validation->getErrors());
         }
 
         // Inisiasi Data
