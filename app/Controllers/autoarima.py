@@ -29,7 +29,7 @@ model = pm.auto_arima(df.value, start_p=0, start_q=0,
 # Non-Seasonal
 # model = pm.auto_arima(df.value, start_p=0, start_q=0,
 #                       test='adf',       # use adftest to find optimal 'd'
-#                       max_p=5, max_q=5, # maximum p and q
+#                       max_p=5, max_q=3, # maximum p and q
 #                       m=1,              # frequency of series
 #                       d=None,           # let model determine 'd' (differencing)
 #                       seasonal=False,   # No Seasonality
