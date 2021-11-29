@@ -7,7 +7,7 @@ import pmdarima as pm
 from math import sqrt
 from pmdarima.metrics import smape
 
-df = pd.read_csv('C:/xampp/htdocs/bismillahAkhir/public/data.csv', names=['value'])
+df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
 
 #divide into train and validation set
 train = df[:int(0.7*(len(df)))]
@@ -25,6 +25,21 @@ model = pm.auto_arima(df.value, start_p=0, start_q=0,
                       suppress_warnings=True, 
                       stepwise=True
                       )
+
+# Non-Seasonal
+# model = pm.auto_arima(df.value, start_p=0, start_q=0,
+#                       test='adf',       # use adftest to find optimal 'd'
+#                       max_p=5, max_q=5, # maximum p and q
+#                       m=1,              # frequency of series
+#                       d=None,           # let model determine 'd' (differencing)
+#                       seasonal=False,   # No Seasonality
+#                       start_P=0, 
+#                       start_Q=0,
+#                       D=0, 
+#                       trace=True,
+#                       error_action='ignore',  
+#                       suppress_warnings=True, 
+#                       stepwise=True)
 
 # Forecast for accuracy
 forecast = model.predict(n_periods=len(valid))
@@ -79,7 +94,6 @@ ax.set_xlabel('Bulan ke-')
 ax.set_ylabel('Nominal')
 
 plt.plot(df.value)
-# ax.text(1, 1, 'Test MAPE: %.3f', fontdict=None)
 
 plt.plot(fc_series, color='darkgreen')
 plt.fill_between(lower_series.index, 

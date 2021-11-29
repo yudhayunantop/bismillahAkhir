@@ -30,16 +30,16 @@ class MesinFotocopyModel extends Model
                 GROUP BY mesin_fotocopy.id_mesin";    
             return $this->query($sql)->getResultArray();
 
-            // return $this
-            // ->from('persewaan')
-            // ->selectCount('persewaan.ID_MESIN')
-            // ->where('persewaan.ID_MESIN=mesin_fotocopy.ID_MESIN ')
-            // ->groupBy("mesin_fotocopy.id_mesin")
-            // ->findAll();
         }
         return $this->where(['id_mesin' => $id_mesin])->first();
     }
-
+    // return $this
+    // ->from('persewaan')
+    // ->selectCount('persewaan.ID_MESIN')
+    // ->where('persewaan.ID_MESIN=mesin_fotocopy.ID_MESIN ')
+    // ->groupBy("mesin_fotocopy.id_mesin")
+    // ->findAll();
+    
     // public function getMesinFotocopy($id_mesin = false)
     // {
     //     if ($id_mesin==false) {

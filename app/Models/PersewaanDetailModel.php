@@ -43,8 +43,6 @@ class PersewaanDetailModel extends Model
                 AND persewaan_detail.DELETED_AT IS NULL
                 GROUP BY persewaan_detail.ID_PERSEWAAN_DETAIL";
         return $this->query($sql)->getResultArray();
-        // return $this->where('persewaan.ID_PERSEWAAN_DETAIL = persewaan_detail.ID_PERSEWAAN_DETAIL')
-        //             ->findAll($id);
     }
 
     public function getUpdate($id)
@@ -86,6 +84,7 @@ class PersewaanDetailModel extends Model
         $sql = "SELECT * FROM `persewaan_detail` WHERE `ID_PERSEWAAN_DETAIL` = $id";
         return $this->query($sql)->getResultArray();
     }
+}
     
     // Data Full
     // SELECT JUMLAH_TAGIHAN
@@ -102,4 +101,3 @@ class PersewaanDetailModel extends Model
     //             FROM persewaan_detail, persewaan
     //             WHERE persewaan.ID_PERSEWAAN_DETAIL = persewaan_detail.ID_PERSEWAAN_DETAIL
     //             AND persewaan.ID_PERUSAHAAN=$id
-}
