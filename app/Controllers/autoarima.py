@@ -8,10 +8,14 @@ from math import sqrt
 from pmdarima.metrics import smape
 
 df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
+pd.set_option('display.max_rows', df.shape[0]+1)
 
-#divide into train and validation set
-train = df[:int(0.95*(len(df)))]
-valid = df[int(0.95*(len(df))):]
+#divide into train and validation set (SEMUA DATA DIMASUKKAN GA PAKE DIBAGI)
+train = df[:int((len(df)-12))]
+valid = df[int((len(df)-12)):]
+
+# print(train)
+print(valid)
 
 # Seasonal True dan m=12 karena dataset merupakan data bulanan dari 12 bulan
 model = pm.auto_arima(df.value, start_p=0, start_q=0,
