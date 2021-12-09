@@ -56,7 +56,8 @@ class PersewaanDetailModel extends Model
         $sql = "SELECT 
                 persewaan_detail.JUMLAH_TAGIHAN
                 FROM persewaan_detail, persewaan
-                WHERE persewaan.ID_PERSEWAAN_DETAIL = persewaan_detail.ID_PERSEWAAN_DETAIL
+                WHERE persewaan.ID_PERSEWAAN_DETAIL = persewaan_detail.ID_PERSEWAAN_DETAIL 
+                AND persewaan_detail.DELETED_AT IS null
                 AND persewaan.ID_PERUSAHAAN=$id";
         return $this->query($sql)->getResultArray();
     }

@@ -10,8 +10,8 @@ from pmdarima.metrics import smape
 df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
 
 #divide into train and validation set
-train = df[:int(0.7*(len(df)))]
-valid = df[int(0.7*(len(df))):]
+train = df[:int(0.95*(len(df)))]
+valid = df[int(0.95*(len(df))):]
 
 # Seasonal True dan m=12 karena dataset merupakan data bulanan dari 12 bulan
 model = pm.auto_arima(df.value, start_p=0, start_q=0,
@@ -45,31 +45,42 @@ model = pm.auto_arima(df.value, start_p=0, start_q=0,
 forecast = model.predict(n_periods=len(valid))
 forecast = pd.DataFrame(forecast,index = valid.index,columns=['Prediction'])
 
+forecast = round(forecast)
+print(forecast)
+
 #calculate mape
 from math import sqrt
 from pmdarima.metrics import smape
 from sklearn.metrics import mean_squared_error
 
+# MSE Library
 # mse = mean_squared_error(valid,forecast)
+
+# MSE Manual
+# difference_array = valid.value - forecast.Prediction
 difference_array = np.subtract(valid, forecast)
+# squared_array = pow(difference_array, 2)
 squared_array = np.square(difference_array)
 mse = squared_array.mean()
 
+# Mape
+# np.mean(np.abs(forecast - actual)/np.abs(actual))  
+# MAPE
 mape = sqrt(smape(valid,forecast))
 print('MAPE : ', mape)
 print('MSE : ', mse)
 
-######################################################################################
-# model = pm.auto_arima(df.value, start_p=0, start_q=0,
-#                       test='adf',       # use adftest to find optimal 'd'
-#                       max_p=5, max_q=3, # maximum p and q
-#                       m=12,              # frequency of series
-#                       seasonal=True,   # Data bulanan
-#                       trace=True,
-#                       error_action='ignore',  
-#                       suppress_warnings=True, 
-#                       stepwise=True)
-######################################################################################
+# ######################################################################################
+# # model = pm.auto_arima(df.value, start_p=0, start_q=0,
+# #                       test='adf',       # use adftest to find optimal 'd'
+# #                       max_p=5, max_q=3, # maximum p and q
+# #                       m=12,              # frequency of series
+# #                       seasonal=True,   # Data bulanan
+# #                       trace=True,
+# #                       error_action='ignore',  
+# #                       suppress_warnings=True, 
+# #                       stepwise=True)
+# ######################################################################################
 
 # Forecast
 n_periods = 12
@@ -94,6 +105,8 @@ ax.set_xlabel('Bulan ke-')
 ax.set_ylabel('Nominal')
 
 plt.plot(df.value)
+
+print(fc_series)
 
 plt.plot(fc_series, color='darkgreen')
 plt.fill_between(lower_series.index, 
