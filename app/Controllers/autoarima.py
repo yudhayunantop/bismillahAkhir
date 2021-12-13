@@ -5,17 +5,23 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.arima_model import ARIMA
 import pmdarima as pm
 from math import sqrt
-from pmdarima.metrics import smape
+from sklearn.metrics import mean_absolute_error
+
+import numpy as np
+
+def mape(actual, pred): 
+    actual, pred = np.array(actual), np.array(pred)
+    return np.mean((np.abs(actual - pred) / actual))*100 
 
 df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
 pd.set_option('display.max_rows', df.shape[0]+1)
 
 #divide into train and validation set (SEMUA DATA DIMASUKKAN GA PAKE DIBAGI)
-train = df[:int((len(df)-12))]
-valid = df[int((len(df)-12)):]
+train = df[:int(len(df)-10)]
+valid = df[int(len(df)-10):]
 
-# print(train)
 print(valid)
+print(train)
 
 # Seasonal True dan m=12 karena dataset merupakan data bulanan dari 12 bulan
 model = pm.auto_arima(df.value, start_p=0, start_q=0,
@@ -30,21 +36,6 @@ model = pm.auto_arima(df.value, start_p=0, start_q=0,
                       stepwise=True
                       )
 
-# Non-Seasonal
-# model = pm.auto_arima(df.value, start_p=0, start_q=0,
-#                       test='adf',       # use adftest to find optimal 'd'
-#                       max_p=5, max_q=3, # maximum p and q
-#                       m=1,              # frequency of series
-#                       d=None,           # let model determine 'd' (differencing)
-#                       seasonal=False,   # No Seasonality
-#                       start_P=0, 
-#                       start_Q=0,
-#                       D=0, 
-#                       trace=True,
-#                       error_action='ignore',  
-#                       suppress_warnings=True, 
-#                       stepwise=True)
-
 # Forecast for accuracy
 forecast = model.predict(n_periods=len(valid))
 forecast = pd.DataFrame(forecast,index = valid.index,columns=['Prediction'])
@@ -53,24 +44,16 @@ forecast = round(forecast)
 print(forecast)
 
 #calculate mape
-from math import sqrt
-from pmdarima.metrics import smape
-from sklearn.metrics import mean_squared_error
+mape = mape(valid, forecast)
 
 # MSE Library
 # mse = mean_squared_error(valid,forecast)
 
 # MSE Manual
-# difference_array = valid.value - forecast.Prediction
 difference_array = np.subtract(valid, forecast)
-# squared_array = pow(difference_array, 2)
 squared_array = np.square(difference_array)
 mse = squared_array.mean()
 
-# Mape
-# np.mean(np.abs(forecast - actual)/np.abs(actual))  
-# MAPE
-mape = sqrt(smape(valid,forecast))
 print('MAPE : ', mape)
 print('MSE : ', mse)
 
