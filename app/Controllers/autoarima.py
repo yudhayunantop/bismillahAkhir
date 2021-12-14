@@ -4,8 +4,7 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima_model import ARIMA
 import pmdarima as pm
-from math import sqrt
-from sklearn.metrics import mean_absolute_error
+
 
 import numpy as np
 
@@ -16,7 +15,7 @@ def mape(actual, pred):
 df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
 pd.set_option('display.max_rows', df.shape[0]+1)
 
-#divide into train and validation set (SEMUA DATA DIMASUKKAN GA PAKE DIBAGI)
+#divide into train and validation set
 train = df[:int(len(df)-10)]
 valid = df[int(len(df)-10):]
 
@@ -57,17 +56,7 @@ mse = squared_array.mean()
 print('MAPE : ', mape)
 print('MSE : ', mse)
 
-# ######################################################################################
-# # model = pm.auto_arima(df.value, start_p=0, start_q=0,
-# #                       test='adf',       # use adftest to find optimal 'd'
-# #                       max_p=5, max_q=3, # maximum p and q
-# #                       m=12,              # frequency of series
-# #                       seasonal=True,   # Data bulanan
-# #                       trace=True,
-# #                       error_action='ignore',  
-# #                       suppress_warnings=True, 
-# #                       stepwise=True)
-# ######################################################################################
+############################################################################################
 
 # Forecast
 n_periods = 12
@@ -79,10 +68,6 @@ fc_series = pd.Series(fc, index=index_of_fc)
 lower_series = pd.Series(confint[:, 0], index=index_of_fc)
 upper_series = pd.Series(confint[:, 1], index=index_of_fc)
 
-# print(upper_series)
-# print(lower_series)
-# print(upper_series)
-
 # Plot Data
 fig = plt.figure()
 ax = fig.add_subplot()
@@ -92,8 +77,6 @@ ax.set_xlabel('Bulan ke-')
 ax.set_ylabel('Nominal')
 
 plt.plot(df.value)
-
-print(fc_series)
 
 plt.plot(fc_series, color='darkgreen')
 plt.fill_between(lower_series.index, 
