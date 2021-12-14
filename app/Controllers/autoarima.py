@@ -4,8 +4,6 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima_model import ARIMA
 import pmdarima as pm
-
-
 import numpy as np
 
 def mape(actual, pred): 
