@@ -94,7 +94,7 @@ class MesinFotocopy extends BaseController
     public function edit($id)
     {
         $data = [
-            'title' => 'Form Ubah Data mesinfotocopy',
+            'title' => 'Ubah Data Mesin',
             'validation' => \Config\Services::validation(),
             'mesinfotocopy' => $this->mesinFotocopyModel->getMesinFotocopy($id)
         ];
