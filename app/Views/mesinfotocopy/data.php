@@ -21,7 +21,7 @@
     <div class="content">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h5 class="card-title">Form Tambah Data</h5>
+                <h5 class="card-title">Daftar Mesin</h5>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
