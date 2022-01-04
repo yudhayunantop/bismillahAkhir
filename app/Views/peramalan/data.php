@@ -48,6 +48,10 @@
                                         <?= csrf_field(); ?>
                                         <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-chart-line"></i></button>
                                     </form>
+                                    <!-- <form action="/peramalan/tanggalramal/<?= $row['ID_PERUSAHAAN']; ?>" method="POST" class="d-inline">
+                                        <?= csrf_field(); ?>
+                                        <button type="submit" class="btn btn-default btn-sm"><i class="fas fa-eye"></i></button>
+                                    </form> -->
                                 </div>
                             </td>
                         </tr>

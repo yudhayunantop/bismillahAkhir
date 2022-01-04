@@ -55,5 +55,28 @@ class Peramalan extends BaseController
         }
         
     }
+
+    public function tanggalRamal(){
+        $file = fopen('C:\xampp\htdocs\bismillahAkhir\public\dataRamal.csv',"r");
+        $dataJadi=[];
+
+        for ($i=0; $i < 12; $i++) { 
+            $data=fgetcsv($file);
+            $data= implode($data);
+
+            if (str_pad($data, 1, STR_PAD_LEFT)=='1') {
+                $dataJadi[]=str_pad($data, 7, STR_PAD_LEFT);
+            }
+            if (str_pad($data, 1, STR_PAD_LEFT)=='2') {
+                $dataJadi[]=str_pad($data, 7, STR_PAD_LEFT);
+            }
+            else {
+                $dataJadi[]=str_pad($data, 6, STR_PAD_LEFT);
+            }
+        }
+
+        dd($dataJadi);
+        fclose($file);
+    }
     
 }
