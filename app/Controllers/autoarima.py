@@ -10,8 +10,8 @@ def mape(actual, pred):
     actual, pred = np.array(actual), np.array(pred)
     return np.mean((np.abs(actual - pred) / actual))*100 
 
-df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
-pd.set_option('display.max_rows', df.shape[0]+1)
+df = pd.read_csv('C:/xampp/htdocs/bismillahAkhir/public/data.csv', names=['value'])
+# pd.set_option('display.max_rows', df.shape[0]+1)
 
 #divide into train and validation set
 train = df[:int(len(df)-10)]

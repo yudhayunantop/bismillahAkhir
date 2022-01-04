@@ -89,6 +89,7 @@ class PersewaanDetail extends BaseController
         $counterBulanLalu = $this->request->getVar('input_counterlalu');
         $counterBulanIni = $this->request->getVar('input_counterini');
         $kertasRusak = $this->request->getVar('input_kertasrusak');
+        $tanggalTagih = $this->request->getVar('input_tanggaltagih');
         // $kelebihanPemakaian = $this->request->getVar('input_kelebihanpemakaian');
 
         $jumlahKelebihan=0;
@@ -107,34 +108,45 @@ class PersewaanDetail extends BaseController
             $jumlahTagihan = (int) $dataTagihan['BIAYA_SEWA'];
         }
 
-        //2. Create Data Process
-        // Panggil model persewaanDetail + save
-        $this->persewaanDetailModel->save([
-            'TANGGAL_TAGIH' => $this->request->getVar('input_tanggaltagih'),
-            'TANGGAL_BAYAR' => $this->request->getVar('input_tanggalbayar'),
-            'COUNTER_BULAN_LALU' => $this->request->getVar('input_counterlalu'),
-            'COUNTER_BULAN_INI' => $this->request->getVar('input_counterini'),
-            'SELISIH_COUNTER' => $selisihCounter,
-            'KERTAS_RUSAK' => $this->request->getVar('input_kertasrusak'),
-            'NETTO' => $netto,
-            'KELEBIHAN_PEMAKAIAN' => $kelebihanPemakaian,
-            'JUMLAH_TAGIHAN' => $jumlahTagihan
-        ]);
-
-        $idPersewaanDetail= $this->persewaanDetailModel->getInsertID();
-
-        // panggil model persewaan + save
-        $this->persewaanModel->save([
-            'ID_USER' => session()->get('ID_USER'),
-            'ID_PERUSAHAAN' => $this->request->getVar('input_idperusahaan'),
-            'ID_PERSEWAAN_DETAIL' => $idPersewaanDetail
-        ]);
+        $tanggalDuplikat = $this->persewaanDetailModel->cekTanggalDuplikat($idPerusahaan, $tanggalTagih);
+        // dd($tanggalDuplikat);
+        if((int)$tanggalDuplikat==0){
+            //2. Create Data Process
+            // Panggil model persewaanDetail + save
+            $this->persewaanDetailModel->save([
+                'TANGGAL_TAGIH' => $tanggalTagih,
+                'TANGGAL_BAYAR' => $this->request->getVar('input_tanggalbayar'),
+                'COUNTER_BULAN_LALU' => $this->request->getVar('input_counterlalu'),
+                'COUNTER_BULAN_INI' => $this->request->getVar('input_counterini'),
+                'SELISIH_COUNTER' => $selisihCounter,
+                'KERTAS_RUSAK' => $this->request->getVar('input_kertasrusak'),
+                'NETTO' => $netto,
+                'KELEBIHAN_PEMAKAIAN' => $kelebihanPemakaian,
+                'JUMLAH_TAGIHAN' => $jumlahTagihan
+            ]);
         
-        //3. Membuat FlashData
-        session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
+            $idPersewaanDetail= $this->persewaanDetailModel->getInsertID();
+        
+            // panggil model persewaan + save
+            $this->persewaanModel->save([
+                'ID_USER' => session()->get('ID_USER'),
+                'ID_PERUSAHAAN' => $this->request->getVar('input_idperusahaan'),
+                'ID_PERSEWAAN_DETAIL' => $idPersewaanDetail
+            ]);
+            //3. Membuat FlashData
+            session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
 
-        //4. Redirect
-        return redirect()->to('persewaandetail/'.$idPerusahaan);
+            //4. Redirect
+            return redirect()->to('persewaandetail/'.$idPerusahaan);
+
+        }else{
+
+            $_SESSION['pesan'] = 'Tanggal tagih sudah ada!';
+            $session = session();
+            $session->markAsFlashdata('pesan');
+
+            return redirect()->to('/persewaandetail/create/'.$idPerusahaan)->withInput();
+        }
     }
 
     public function delete($id, $idPerusahaan)

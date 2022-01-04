@@ -72,8 +72,6 @@ class PersewaanDetailModel extends Model
         return $this->query($sql)->getResultArray();
     }
 
-
-
     public function getJumlahTagihan($id)
     {
         $sql = "SELECT `JUMLAH_TAGIHAN` FROM `persewaan_detail` WHERE `ID_PERSEWAAN_DETAIL` = $id";
@@ -85,20 +83,15 @@ class PersewaanDetailModel extends Model
         $sql = "SELECT * FROM `persewaan_detail` WHERE `ID_PERSEWAAN_DETAIL` = $id";
         return $this->query($sql)->getResultArray();
     }
-}
-    
-    // Data Full
-    // SELECT JUMLAH_TAGIHAN
-    //             FROM persewaan_detail, persewaan
-    //             WHERE persewaan.ID_PERSEWAAN_DETAIL = persewaan_detail.ID_PERSEWAAN_DETAIL
-    //             AND persewaan.ID_PERUSAHAAN=$id
 
-    // SELECT 
-    //                 CASE
-    //                     WHEN LENGTH(CAST(persewaan_detail.JUMLAH_TAGIHAN as CHAR)) >= 7 
-    //                         THEN SUBSTR(CAST(persewaan_detail.JUMLAH_TAGIHAN as CHAR),1,4)
-    //                     ELSE SUBSTR(CAST(persewaan_detail.JUMLAH_TAGIHAN as CHAR),1,3)
-    //                 END AS tagihanFix
-    //             FROM persewaan_detail, persewaan
-    //             WHERE persewaan.ID_PERSEWAAN_DETAIL = persewaan_detail.ID_PERSEWAAN_DETAIL
-    //             AND persewaan.ID_PERUSAHAAN=$id
+    public function cekTanggalDuplikat($tanggal, $id)
+    {
+        $sql = "SELECT COUNT(persewaan_detail.TANGGAL_TAGIH) AS JumlahTanggal
+        FROM persewaan_detail, persewaan 
+        WHERE 
+        persewaan_detail.TANGGAL_TAGIH = $tanggal AND 
+        persewaan.ID_PERSEWAAN_DETAIL=persewaan_detail.ID_PERSEWAAN_DETAIL AND
+        persewaan.ID_PERUSAHAAN = $id";
+        return $this->query($sql)->getResultArray();
+    }
+}

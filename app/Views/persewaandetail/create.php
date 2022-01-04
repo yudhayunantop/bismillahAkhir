@@ -29,6 +29,11 @@
                     <div class="card-header">
                         <h5 class="card-title"><?= $title; ?></h5>
                     </div>
+                    <?php if (isset($_SESSION['pesan'])): ?>
+                        <div class="alert alert-warning" role="alert">
+                            <?= $_SESSION['pesan']; ?>
+                        </div>
+                    <?php endif;?>
                     <div class="card-body">
                         <div class="form-group">
                                 <label for="input_tanggaltagih">Tanggal Tagih</label>
