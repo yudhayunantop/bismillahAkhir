@@ -170,7 +170,7 @@ class PersewaanDetail extends BaseController
     public function edit($id, $idPerusahaan)
     {
         $data = [
-            'title' => 'Form Ubah Data Perusahaan',
+            'title' => 'Ubah Data Perusahaan',
             'validation' => \Config\Services::validation(),
             'persewaanDetail' => $this->persewaanDetailModel->getUpdate($id),
             'idPerusahaan' => $idPerusahaan

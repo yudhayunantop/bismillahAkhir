@@ -6,7 +6,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Peramalan Data Tagihan</h1>
+                <h1 class="m-0 text-dark">Peramalan Pendapatan</h1>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -21,7 +21,7 @@
     <div class="content">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h5 class="card-title">List <?= $title; ?></h5>
+                <h5 class="card-title">List Perusahaan</h5>
             </div>
             <div class="card-body p-0 table-responsive">
                 <table class="table table-striped" id="tabledata">
