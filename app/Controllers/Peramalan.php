@@ -48,7 +48,7 @@ class Peramalan extends BaseController
             
             // Jalankan peramalan
             set_time_limit(600);
-            $python = system('python C:\xampp\htdocs\bismillahAkhir\app\Controllers\autoarima.py');
+            $python = system('python C:\xampp\htdocs\web\bismillahAkhir\app\Controllers\autoarima.py');
             echo $python;
 
             return redirect()->to('/peramalan');
@@ -56,27 +56,67 @@ class Peramalan extends BaseController
         
     }
 
-    public function tanggalRamal(){
-        $file = fopen('C:\xampp\htdocs\bismillahAkhir\public\dataRamal.csv',"r");
+    public function tanggalRamal($id){
+        $file = fopen('C:\xampp\htdocs\web\bismillahAkhir\public\dataRamal.csv',"r");
+        $perusahaan = $this->perusahaanModel->getNamaPerusahaan($id);
+
         $dataJadi=[];
+        $bulanBaru=[];
+        $tahunBaru=[];
+        
 
         for ($i=0; $i < 12; $i++) { 
             $data=fgetcsv($file);
             $data= implode($data);
-
-            if (str_pad($data, 1, STR_PAD_LEFT)=='1') {
-                $dataJadi[]=str_pad($data, 7, STR_PAD_LEFT);
+            $data = str_replace(".", "", $data);
+            
+            if ($data[0]=='1') {
+                $dataJadi[]=substr($data, 0, 7);
             }
-            if (str_pad($data, 1, STR_PAD_LEFT)=='2') {
-                $dataJadi[]=str_pad($data, 7, STR_PAD_LEFT);
+            else if ($data[0]=='2') {
+                $dataJadi[]=substr($data, 0, 7);
             }
             else {
-                $dataJadi[]=str_pad($data, 6, STR_PAD_LEFT);
+                $dataJadi[]=substr($data, 0, 6);
             }
         }
-
-        dd($dataJadi);
         fclose($file);
+
+        // Ambil tanggal terakhir
+        $tanggalTerakhir = $this->persewaanDetailModel->getTanggalTerakhir($id)[0];
+        $bulanTerakhir = substr($tanggalTerakhir['tanggalTerakhir'], 5, 2);
+        $tahunTerakhir = substr($tanggalTerakhir['tanggalTerakhir'], 0, 4);
+        
+        $bulanTerakhir = (int)$bulanTerakhir;
+        $tahunTerakhir = (int)$tahunTerakhir;
+        $counterBulan = $bulanTerakhir+1;
+        $counter = 1;
+
+        for ($i=$tahunTerakhir; $i <= $tahunTerakhir+1; $i++) { 
+            
+            for ($j=$counterBulan; $j <= 12; $j++) { 
+                
+                if ($j<=12) {
+                    $bulanBaru[]=$j;
+                    $tahunBaru[]=$i;
+                    $counter++;
+                } 
+                if ($counter>=13) {
+                    break;
+                }        
+            }
+            $counterBulan=1;
+        }
+
+        $data = [
+            'perusahaan'=>$perusahaan[0]['NAMA_PERUSAHAAN'],
+            'dataJadi' => $dataJadi,
+            'bulanBaru' => $bulanBaru,
+            'tahunBaru' => $tahunBaru
+        ];
+
+        return view('peramalan/detail', $data);
+        
     }
     
 }

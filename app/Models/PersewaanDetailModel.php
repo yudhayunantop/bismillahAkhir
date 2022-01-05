@@ -94,4 +94,16 @@ class PersewaanDetailModel extends Model
         persewaan.ID_PERUSAHAAN = $id";
         return $this->query($sql)->getResultArray();
     }
+
+    public function getTanggalTerakhir($id)
+    {
+        $sql = " SELECT MAX(persewaan_detail.TANGGAL_TAGIH) AS tanggalTerakhir
+        FROM persewaan_detail, persewaan 
+        WHERE persewaan.ID_PERSEWAAN_DETAIL=persewaan_detail.ID_PERSEWAAN_DETAIL AND
+        persewaan.ID_PERUSAHAAN=$id AND
+        persewaan_detail.DELETED_AT IS NULL";
+        
+        return $this->query($sql)->getResultArray();
+    }
+
 }

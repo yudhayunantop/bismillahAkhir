@@ -10,15 +10,8 @@ def mape(actual, pred):
     actual, pred = np.array(actual), np.array(pred)
     return np.mean((np.abs(actual - pred) / actual))*100 
 
-df = pd.read_csv('C:/xampp/htdocs/bismillahAkhir/public/data.csv', names=['value'])
+df = pd.read_csv('C:/xampp/htdocs/web/bismillahAkhir/public/data.csv', names=['value'])
 # pd.set_option('display.max_rows', df.shape[0]+1)
-
-#divide into train and validation set
-train = df[:int(len(df)-10)]
-valid = df[int(len(df)-10):]
-
-print(valid)
-print(train)
 
 # Seasonal True dan m=12 karena dataset merupakan data bulanan dari 12 bulan
 model = pm.auto_arima(df.value, start_p=0, start_q=0,
@@ -33,12 +26,15 @@ model = pm.auto_arima(df.value, start_p=0, start_q=0,
                       stepwise=True
                       )
 
+#divide into train and validation set
+train = df[:int(len(df)-10)]
+valid = df[int(len(df)-10):]
+
 # Forecast for accuracy
 forecast = model.predict(n_periods=len(valid))
 forecast = pd.DataFrame(forecast,index = valid.index,columns=['Prediction'])
 
 forecast = round(forecast)
-print(forecast)
 
 #calculate mape
 mape = mape(valid, forecast)
@@ -66,6 +62,7 @@ fc_series = pd.Series(fc, index=index_of_fc)
 lower_series = pd.Series(confint[:, 0], index=index_of_fc)
 upper_series = pd.Series(confint[:, 1], index=index_of_fc)
 
+print(fc_series)
 # Plot Data
 fig = plt.figure()
 ax = fig.add_subplot()

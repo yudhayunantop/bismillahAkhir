@@ -51,4 +51,10 @@ class PerusahaanModel extends Model
             WHERE ID_PERUSAHAAN=$idPerusahaan"; 
             return $this->query($sql)->getResultArray();
     }
+
+    public function getNamaPerusahaan($idPerusahaan)
+    {
+            $sql="SELECT NAMA_PERUSAHAAN FROM perusahaan WHERE ID_PERUSAHAAN=$idPerusahaan"; 
+            return $this->query($sql)->getResultArray();
+    }
 }
