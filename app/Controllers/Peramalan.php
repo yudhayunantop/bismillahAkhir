@@ -57,65 +57,79 @@ class Peramalan extends BaseController
     }
 
     public function tanggalRamal($id){
-        $file = fopen('C:\xampp\htdocs\web\bismillahAkhir\public\dataRamal.csv',"r");
-        $perusahaan = $this->perusahaanModel->getNamaPerusahaan($id);
+        // Cek Jumlah data
+        $jumlahData =  $this->persewaanDetailModel->getJumlahData($id);
 
-        $dataJadi=[];
-        $bulanBaru=[];
-        $tahunBaru=[];
-        
+        if ($jumlahData[0]['BanyakTransaksi'] < 24) {
 
-        for ($i=0; $i < 12; $i++) { 
-            $data=fgetcsv($file);
-            $data= implode($data);
-            $data = str_replace(".", "", $data);
+            $_SESSION['pesan'] = 'Peramalan gagal! jumlah data yang dimiliki ('.$jumlahData[0]['BanyakTransaksi'].') kurang dari 24 bulan!';
+            $session = session();
+            $session->markAsFlashdata('pesan');
             
-            if ($data[0]=='1') {
-                $dataJadi[]=substr($data, 0, 7);
-            }
-            else if ($data[0]=='2') {
-                $dataJadi[]=substr($data, 0, 7);
-            }
-            else {
-                $dataJadi[]=substr($data, 0, 6);
-            }
+            return redirect()->to('/peramalan');
         }
-        fclose($file);
-
-        // Ambil tanggal terakhir
-        $tanggalTerakhir = $this->persewaanDetailModel->getTanggalTerakhir($id)[0];
-        $bulanTerakhir = substr($tanggalTerakhir['tanggalTerakhir'], 5, 2);
-        $tahunTerakhir = substr($tanggalTerakhir['tanggalTerakhir'], 0, 4);
-        
-        $bulanTerakhir = (int)$bulanTerakhir;
-        $tahunTerakhir = (int)$tahunTerakhir;
-        $counterBulan = $bulanTerakhir+1;
-        $counter = 1;
-
-        for ($i=$tahunTerakhir; $i <= $tahunTerakhir+1; $i++) { 
+        else{
+            $file = fopen('C:\xampp\htdocs\web\bismillahAkhir\public\dataRamal.csv',"r");
+            $perusahaan = $this->perusahaanModel->getNamaPerusahaan($id);
+    
+            $dataJadi=[];
+            $bulanBaru=[];
+            $tahunBaru=[];
             
-            for ($j=$counterBulan; $j <= 12; $j++) { 
+    
+            for ($i=0; $i < 12; $i++) { 
+                $data=fgetcsv($file);
+                $data= implode($data);
+                $data = str_replace(".", "", $data);
                 
-                if ($j<=12) {
-                    $bulanBaru[]=$j;
-                    $tahunBaru[]=$i;
-                    $counter++;
-                } 
-                if ($counter>=13) {
-                    break;
-                }        
+                if ($data[0]=='1') {
+                    $dataJadi[]=substr($data, 0, 7);
+                }
+                else if ($data[0]=='2') {
+                    $dataJadi[]=substr($data, 0, 7);
+                }
+                else {
+                    $dataJadi[]=substr($data, 0, 6);
+                }
             }
-            $counterBulan=1;
+            fclose($file);
+    
+            // Ambil tanggal terakhir
+            $tanggalTerakhir = $this->persewaanDetailModel->getTanggalTerakhir($id)[0];
+            $bulanTerakhir = substr($tanggalTerakhir['tanggalTerakhir'], 5, 2);
+            $tahunTerakhir = substr($tanggalTerakhir['tanggalTerakhir'], 0, 4);
+            
+            $bulanTerakhir = (int)$bulanTerakhir;
+            $tahunTerakhir = (int)$tahunTerakhir;
+            $counterBulan = $bulanTerakhir+1;
+            $counter = 1;
+    
+            for ($i=$tahunTerakhir; $i <= $tahunTerakhir+1; $i++) { 
+                
+                for ($j=$counterBulan; $j <= 12; $j++) { 
+                    
+                    if ($j<=12) {
+                        $bulanBaru[]=$j;
+                        $tahunBaru[]=$i;
+                        $counter++;
+                    } 
+                    if ($counter>=13) {
+                        break;
+                    }        
+                }
+                $counterBulan=1;
+            }
+    
+            $data = [
+                'perusahaan'=>$perusahaan[0]['NAMA_PERUSAHAAN'],
+                'dataJadi' => $dataJadi,
+                'bulanBaru' => $bulanBaru,
+                'tahunBaru' => $tahunBaru
+            ];
+    
+            return view('peramalan/detail', $data);
         }
 
-        $data = [
-            'perusahaan'=>$perusahaan[0]['NAMA_PERUSAHAAN'],
-            'dataJadi' => $dataJadi,
-            'bulanBaru' => $bulanBaru,
-            'tahunBaru' => $tahunBaru
-        ];
-
-        return view('peramalan/detail', $data);
         
     }
     
