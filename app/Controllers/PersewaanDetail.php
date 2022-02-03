@@ -108,7 +108,7 @@ class PersewaanDetail extends BaseController
             $jumlahTagihan = (int) $dataTagihan['BIAYA_SEWA'];
         }
 
-        $tanggalDuplikat = $this->persewaanDetailModel->cekTanggalDuplikat($idPerusahaan, $tanggalTagih);
+        $tanggalDuplikat = $this->persewaanDetailModel->cekTanggalDuplikat($idPerusahaan, $tanggalTagih)[0]['JumlahTanggal'];
         // dd($tanggalDuplikat);
         if((int)$tanggalDuplikat==0){
             //2. Create Data Process
