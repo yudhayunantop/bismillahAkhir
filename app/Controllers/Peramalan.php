@@ -48,7 +48,7 @@ class Peramalan extends BaseController
             
             // Jalankan peramalan
             set_time_limit(600);
-            $python = system('python C:\xampp\htdocs\web\bismillahAkhir\app\Controllers\autoarima.py');
+            $python = system('python C:\xampp\htdocs\bismillahAkhir\app\Controllers\autoarima.py');
             echo $python;
 
             return redirect()->to('/peramalan');
@@ -69,7 +69,7 @@ class Peramalan extends BaseController
             return redirect()->to('/peramalan');
         }
         else{
-            $file = fopen('C:\xampp\htdocs\web\bismillahAkhir\public\dataRamal.csv',"r");
+            $file = fopen('C:\xampp\htdocs\bismillahAkhir\public\dataRamal.csv',"r");
             $perusahaan = $this->perusahaanModel->getNamaPerusahaan($id);
     
             $dataJadi=[];
